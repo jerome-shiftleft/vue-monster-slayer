@@ -53,6 +53,7 @@ const app = Vue.createApp({
     },
     surrender() {
       this.winner = 'monster';
+      this.reset();
     },
     reset() {
       this.winner = null;
