@@ -22,6 +22,18 @@ const app = Vue.createApp({
       winner: null
     }
   },
+  computed: {
+    playerHealthBarStyle() {
+      return {
+        width: `${this.playerHealth}%`
+      }
+    },
+    monsterHealthBarStyle() {
+      return {
+        width: `${this.monsterHealth}%`
+      }
+    }
+  },
   watch: {
     playerHealth(value) {
       if (value <= 0) {
