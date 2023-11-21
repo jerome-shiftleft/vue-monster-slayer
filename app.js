@@ -138,7 +138,7 @@ const app = Vue.createApp({
       this.battleLog = [];
     },
     addLogMessage(who, what, value) {
-      this.battleLog.unshift({
+      this.battleLog.push({
         actionBy: who,
         actionType: what,
         actionValue: value
