@@ -57,7 +57,7 @@
         </div>
 
         <ul v-if="battleLog.length !== 0">
-          <li v-for="(log, index) in battleLog">
+          <li v-for="(log, index) in battleLog" :key="index">
             {{ log.actionBy }}
             {{ log.actionType }}
             {{ log.actionValue }}
