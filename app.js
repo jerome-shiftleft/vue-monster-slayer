@@ -14,12 +14,13 @@ const app = Vue.createApp({
       playerMaxDmg: 12,
       monsterMinDmg: 8,
       monsterMaxDmg: 15,
-      specialAtkMin: 20,
+      specialAtkMin: 10,
       specialAtkMax: 25,
       specialAtkExecuted: false,
       healExecuted: 0,
       healRestore: 25,
-      winner: null
+      winner: null,
+      currentRound: 0
     }
   },
   computed: {
@@ -32,6 +33,9 @@ const app = Vue.createApp({
       return {
         width: `${this.monsterHealth}%`
       }
+    },
+    mayUseSpecialAttack() {
+      return this.currentRound % 3 !== 0;
     }
   },
   watch: {
@@ -52,6 +56,7 @@ const app = Vue.createApp({
   methods: {
     attackMonster() {
       console.log('attacking monster!');
+      this.currentRound++;
       let playerDmg = randomAtkDmg(this.playerMinDmg, this.playerMaxDmg)
       console.log(`player's damage: ${playerDmg}`);
       this.monsterHealth -= playerDmg;
@@ -63,6 +68,7 @@ const app = Vue.createApp({
     },
     specialAtk() {
       console.log('special attack!');
+      this.currentRound++;
       let playerDmg = randomAtkDmg(this.specialAtkMin, this.specialAtkMax)
       console.log(`player's damage: ${playerDmg}`);
       this.monsterHealth -= playerDmg;
@@ -99,6 +105,7 @@ const app = Vue.createApp({
       this.winner = null;
       this.playerHealth = 100;
       this.monsterHealth = 100;
+      this.currentRound = 0;
       this.specialAtkExecuted = false;
       this.healExecuted = 0;
     }
