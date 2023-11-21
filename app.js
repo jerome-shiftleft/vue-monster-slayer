@@ -14,14 +14,17 @@ const app = Vue.createApp({
       playerMaxDmg: 12,
       monsterMinDmg: 8,
       monsterMaxDmg: 15,
-      specialAtkMin: 20,
-      specialAtkMax: 25,
+      specialAtkMin: 18,
+      specialAtkMax: 20,
       specialAtkExecuted: false,
       healExecuted: false,
       minHeal: 25,
       maxHeal: 30,
       winner: null,
-      currentRound: 0
+      currentRound: 0,
+      battleLog: [],
+      playerScore: 0,
+      monsterScore: 0
     }
   },
   computed: {
@@ -41,17 +44,22 @@ const app = Vue.createApp({
     },
     mayNotHeal() {
       return (this.currentRound === 0 || this.healExecuted) ? true : false;
+    },
+    battleResultMessage() {
+      return (this.winner == 'player') ? 'You won!' : 'You lost!';
     }
   },
   watch: {
     playerHealth(value) {
       if (value <= 0) {
         this.winner = 'monster';
+        this.monsterScore++;
       }
     },
     monsterHealth(value) {
       if (value <= 0) {
         this.winner = 'player';
+        this.playerScore++;
       }
     },
     winner(value) {
@@ -101,10 +109,13 @@ const app = Vue.createApp({
     },
     battleResult(winner) {
       console.log(`winner: ${winner}`);
+      this.battleLog.push(winner);
       //alert(`winner: ${winner}`);
     },
     surrender() {
       this.winner = 'monster';
+      this.monsterScore++;
+      this.battleLog.push(winner);      
       this.reset();
     },
     reset() {

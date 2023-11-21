@@ -17,6 +17,9 @@
       <h1>Monster Slayer</h1>
     </header>
     <div id="game">
+      <section class="container" v-show="winner">
+        <h2>{{ battleResultMessage }}</h2>
+      </section>
       <section id="monster" class="container">
         <h2>Monster Health</h2>
         <div class="healthbar">
@@ -31,18 +34,27 @@
       </section>
       <section v-show="!winner" id="controls">
         <button @click="attackMonster()">ATTACK</button>
-        <button @click="specialAtk()" :disabled="mayNotUseSpecialAttack">SPECIAL ATTACK</button>
+        <button @click="specialAtk()" :disabled="mayNotUseSpecialAttack">
+          SPECIAL ATTACK
+        </button>
         <button @click="heal" :disabled="mayNotHeal">HEAL</button>
         <button @click="surrender()">SURRENDER</button>
       </section>
-      
+
       <section v-show="winner" class="controls">
         <button @click="reset()">Reset</button>
       </section>
 
       <section id="log" class="container">
-        <h2>Battle Log</h2>
-        <ul></ul>
+        <div class="log-header flex-child">
+          <div id="player-score" class="flex-child">Player: {{ playerScore }}</div>
+          <h2 class="flex-child">Battle Log</h2>
+          <div id="monster-score" class="flex-child">Monster: {{ monsterScore }}</div>
+        </div>
+        
+        <ul v-if="battleLog.length !== 0">
+          <li v-for="(battle, index) in battleLog" :key="index">{{ battle }}</li>
+        </ul>
       </section>
     </div>
   </body>

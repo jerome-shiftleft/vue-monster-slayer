@@ -117,3 +117,15 @@ button:disabled {
 .log--heal {
   color: green;
 }
+
+.log-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.log-header .flex-child {
+  flex-basis: 33.33%;
+  width: 33.33%;
+  text-align: center;  
+}
