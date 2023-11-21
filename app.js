@@ -1,3 +1,10 @@
+function randomAtkDmg(min, max) {
+  let randomDecimal = Math.random();
+  let damage = randomDecimal * (max - min) + min;
+  damage = Math.round(damage);
+  return damage;
+}
+
 const app = Vue.createApp({
   data() {
     return {
@@ -13,12 +20,12 @@ const app = Vue.createApp({
   watch: {
     playerHealth(value) {
       if (value <= 0) {
-        this.winner = 'monster';        
+        this.winner = 'monster';
       }
     },
     monsterHealth(value) {
       if (value <= 0) {
-        this.winner = 'player';        
+        this.winner = 'player';
       }
     },
     winner(value) {
@@ -28,9 +35,7 @@ const app = Vue.createApp({
   methods: {
     attackMonster() {
       console.log('attacking monster!');
-      let randomDecimal = Math.random();
-      let playerDmg = randomDecimal * (this.playerMaxDmg - this.playerMinDmg + 1) + this.playerMinDmg;
-      playerDmg = Math.round(playerDmg);
+      let playerDmg = randomAtkDmg(this.playerMinDmg, this.playerMaxDmg)
       console.log(`player's damage: ${playerDmg}`);
       this.monsterHealth -= playerDmg;
       this.monsterHealth = (this.monsterHealth < 0) ? 0 : this.monsterHealth;
@@ -39,9 +44,7 @@ const app = Vue.createApp({
     },
     attackPlayer() {
       console.log('attacking player!');
-      let randomDecimal = Math.random();
-      let monsterDmg = randomDecimal * (this.monsterMaxDmg - this.monsterMinDmg + 1) + this.monsterMinDmg;
-      monsterDmg = Math.round(monsterDmg);
+      let monsterDmg = randomAtkDmg(this.monsterMinDmg, this.monsterMaxDmg)
       console.log(`monster's damage: ${monsterDmg}`);
       this.playerHealth -= monsterDmg;
       this.playerHealth = (this.playerHealth < 0) ? 0 : this.playerHealth;
