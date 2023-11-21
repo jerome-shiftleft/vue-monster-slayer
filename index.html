@@ -47,13 +47,21 @@
 
       <section id="log" class="container">
         <div class="log-header flex-child">
-          <div id="player-score" class="flex-child">Player: {{ playerScore }}</div>
+          <div id="player-score" class="flex-child">
+            Player: {{ playerScore }}
+          </div>
           <h2 class="flex-child">Battle Log</h2>
-          <div id="monster-score" class="flex-child">Monster: {{ monsterScore }}</div>
+          <div id="monster-score" class="flex-child">
+            Monster: {{ monsterScore }}
+          </div>
         </div>
-        
+
         <ul v-if="battleLog.length !== 0">
-          <li v-for="(battle, index) in battleLog" :key="index">{{ battle }}</li>
+          <li v-for="(log, index) in battleLog">
+            {{ log.actionBy }}
+            {{ log.actionType }}
+            {{ log.actionValue }}
+          </li>
         </ul>
       </section>
     </div>

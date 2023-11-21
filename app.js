@@ -23,6 +23,7 @@ const app = Vue.createApp({
       winner: null,
       currentRound: 0,
       battleLog: [],
+      logActionCount: 0,
       playerScore: 0,
       monsterScore: 0
     }
@@ -75,9 +76,11 @@ const app = Vue.createApp({
       this.monsterHealth -= playerDmg;
       this.monsterHealth = (this.monsterHealth < 0) ? 0 : this.monsterHealth;
       console.log(`monster's health: ${this.monsterHealth}`);
+      this.addLogMessage('player', 'attacked monster', playerDmg);
+      
       if (this.monsterHealth > 0) {
         this.attackPlayer();
-      }
+      }      
     },
     specialAtk() {
       console.log('special attack!');
@@ -88,6 +91,8 @@ const app = Vue.createApp({
       this.monsterHealth = (this.monsterHealth < 0) ? 0 : this.monsterHealth;
       console.log(`monster's health: ${this.monsterHealth}`);
       this.specialAtkExecuted = true;
+      this.addLogMessage('player', 'special attacked monster', playerDmg);
+
       if (this.monsterHealth > 0) {
         this.attackPlayer();
       }
@@ -99,24 +104,29 @@ const app = Vue.createApp({
       this.playerHealth -= monsterDmg;
       this.playerHealth = (this.playerHealth < 0) ? 0 : this.playerHealth;
       console.log(`player's health: ${this.playerHealth}`);
+      this.addLogMessage('monster', 'attacked player', monsterDmg);
     },
     heal() {
       this.currentRound++;
-      this.playerHealth += getRandomValue(this.minHeal, this.maxHeal);
+      let healValue = getRandomValue(this.minHeal, this.maxHeal);
+      this.playerHealth += healValue;
       this.playerHealth = this.playerHealth > 100 ? 100 : this.playerHealth;
       this.healExecuted = true;
-      this.attackPlayer();
+      this.addLogMessage('player', 'healed', healValue);
+      this.attackPlayer();      
     },
     battleResult(winner) {
       console.log(`winner: ${winner}`);
-      this.battleLog.push(winner);
-      //alert(`winner: ${winner}`);
+      let hpLeft = (winner === 'player') ? this.playerHealth : this.monsterHealth;
+      if (this.winner !== null) {
+        this.addLogMessage(winner, 'won', null);
+      }
     },
     surrender() {
       this.winner = 'monster';
       this.monsterScore++;
-      this.battleLog.push(winner);      
       this.reset();
+      this.addLogMessage('player', 'surrendered', null);
     },
     reset() {
       this.winner = null;
@@ -125,6 +135,14 @@ const app = Vue.createApp({
       this.currentRound = 0;
       this.specialAtkExecuted = false;
       this.healExecuted = false;
+      this.battleLog = [];
+    },
+    addLogMessage(who, what, value) {
+      this.battleLog.unshift({
+        actionBy: who,
+        actionType: what,
+        actionValue: value
+      })
     }
   } // end of methods
 });
