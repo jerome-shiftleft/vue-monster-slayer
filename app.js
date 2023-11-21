@@ -14,9 +14,11 @@ const app = Vue.createApp({
       playerMaxDmg: 12,
       monsterMinDmg: 8,
       monsterMaxDmg: 15,
-      specialAtkMin: 10,
+      specialAtkMin: 20,
       specialAtkMax: 25,
       specialAtkExecuted: false,
+      healExecuted: false,
+      healRestore: 20,
       winner: null
     }
   },
@@ -43,7 +45,9 @@ const app = Vue.createApp({
       this.monsterHealth -= playerDmg;
       this.monsterHealth = (this.monsterHealth < 0) ? 0 : this.monsterHealth;
       console.log(`monster's health: ${this.monsterHealth}`);
-      this.attackPlayer();
+      if (this.monsterHealth > 0) {
+        this.attackPlayer();
+      }
     },
     specialAtk() {
       console.log('special attack!');
@@ -53,7 +57,9 @@ const app = Vue.createApp({
       this.monsterHealth = (this.monsterHealth < 0) ? 0 : this.monsterHealth;
       console.log(`monster's health: ${this.monsterHealth}`);
       this.specialAtkExecuted = true;
-      this.attackPlayer();
+      if (this.monsterHealth > 0) {
+        this.attackPlayer();
+      }
     },
     attackPlayer() {
       console.log('attacking player!');
@@ -62,6 +68,12 @@ const app = Vue.createApp({
       this.playerHealth -= monsterDmg;
       this.playerHealth = (this.playerHealth < 0) ? 0 : this.playerHealth;
       console.log(`player's health: ${this.playerHealth}`);
+    },
+    heal() {
+      this.playerHealth += this.healRestore;
+      this.playerHealth = this.playerHealth > 100 ? 100 : this.playerHealth;
+      this.healExecuted = true;
+      this.attackPlayer();
     },
     battleResult(winner) {
       console.log(`winner: ${winner}`);
@@ -75,6 +87,8 @@ const app = Vue.createApp({
       this.winner = null;
       this.playerHealth = 100;
       this.monsterHealth = 100;
+      this.specialAtkExecuted = false;
+      this.healExecuted = false;
     }
   } // end of methods
 });
