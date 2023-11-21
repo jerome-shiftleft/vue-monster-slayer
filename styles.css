@@ -52,7 +52,7 @@ section {
   margin: 0.25rem;
 }
 
-#controls {
+#controls, .controls {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

@@ -6,11 +6,24 @@ const app = Vue.createApp({
       playerMinDmg: 5,
       playerMaxDmg: 12,
       monsterMinDmg: 8,
-      monsterMaxDmg: 15
+      monsterMaxDmg: 15,
+      winner: null
     }
   },
   watch: {
-
+    playerHealth(value) {
+      if (value <= 0) {
+        this.winner = 'monster';        
+      }
+    },
+    monsterHealth(value) {
+      if (value <= 0) {
+        this.winner = 'player';        
+      }
+    },
+    winner(value) {
+      this.battleResult(value);
+    }
   },
   methods: {
     attackMonster() {
@@ -33,8 +46,20 @@ const app = Vue.createApp({
       this.playerHealth -= monsterDmg;
       this.playerHealth = (this.playerHealth < 0) ? 0 : this.playerHealth;
       console.log(`player's health: ${this.playerHealth}`);
+    },
+    battleResult(winner) {
+      console.log(`winner: ${winner}`);
+      //alert(`winner: ${winner}`);
+    },
+    surrender() {
+      this.winner = 'monster';
+    },
+    reset() {
+      this.winner = null;
+      this.playerHealth = 100;
+      this.monsterHealth = 100;
     }
-  }
+  } // end of methods
 });
 
 app.mount('#game');
