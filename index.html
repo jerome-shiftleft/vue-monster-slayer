@@ -31,8 +31,8 @@
       </section>
       <section v-show="!winner" id="controls">
         <button @click="attackMonster()">ATTACK</button>
-        <button @click="specialAtk()" :disabled="mayUseSpecialAttack">SPECIAL ATTACK</button>
-        <button @click="heal" :disabled="(healExecuted >= 1) ? true : false">HEAL</button>
+        <button @click="specialAtk()" :disabled="mayNotUseSpecialAttack">SPECIAL ATTACK</button>
+        <button @click="heal" :disabled="mayNotHeal">HEAL</button>
         <button @click="surrender()">SURRENDER</button>
       </section>
       
