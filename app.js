@@ -18,8 +18,8 @@ const app = Vue.createApp({
       specialAtkMax: 25,
       specialAtkExecuted: false,
       healExecuted: false,
-      minHeal: 20,
-      maxHeal: 25,
+      minHeal: 25,
+      maxHeal: 30,
       winner: null,
       currentRound: 0
     }
